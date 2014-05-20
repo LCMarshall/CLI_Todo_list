@@ -1,7 +1,8 @@
 <?php
 
 // Create array to hold list of todo items
-$items = array('');
+$items = array();
+
 // unset($items[0]);
 
 /// List array items formatted for CLI
@@ -39,10 +40,7 @@ function sort_menu ($items) {
 // ask the user if they want to add it to the beginning or end of the list. 
 // Default to end if no input is given.
 
-// Allow a user to enter F at the main menu to remove the first item 
-// on the list. This feature will not be added to the menu, 
-// and will be a special feature that is only available to "power users". 
-// Also add a L option that grabs and removes the last item in the list.
+
 // Add a (S)ort option to your menu. When it is chosen, 
 // it should call a function called sort_menu().
 
@@ -87,11 +85,11 @@ do {
     
     // Show the menu options
 
+    echo list_items($items);   
 
     echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
 
     $input = get_input(TRUE); 
-    echo list_items($items);   
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines   
@@ -106,12 +104,13 @@ do {
         $input = get_input(TRUE);
         if ($input == 'B'){
             array_unshift($items, $item);
-            } elseif ($input == 'E') {
-            array_push($items, $item);
             } else {
-            array_push($items, $item);
-        }       
-
+            array_push($items, $item); 
+            }      
+// Allow a user to enter F at the main menu to remove the first item 
+// on the list. This feature will not be added to the menu, 
+// and will be a special feature that is only available to "power users". 
+// Also add a L option that grabs and removes the last item in the list.
     } elseif ($input == 'R') {
         // Remove which item?
         echo 'Enter item number to remove: ';
@@ -122,6 +121,10 @@ do {
         // $items = array_values($items);
     } elseif ($input == 'S') {
         $items = sort_menu($items);
+    } elseif ($input == 'F') {
+        array_shift($items);
+    } elseif ($input == 'L') {
+        array_pop($items);
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
