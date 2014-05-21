@@ -118,7 +118,7 @@ do {
         $item = get_input();
         // Remove from array
         unset($items[$key - 1]);
-        // $items = array_values($items);
+        $items = array_values($items);
     } elseif ($input == 'S') {
         $items = sort_menu($items);
     } elseif ($input == 'F') {
