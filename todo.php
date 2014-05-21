@@ -16,9 +16,30 @@ function list_items($list){
     return $result;
 }
 
-function sort_menu ($items) {
-    
+// Create a function that reads the file, and adds each line to the current TODO list. 
+// Loading data/list.txt should properly load the list from above. 
+// Be sure to fclose() the file when you are done reading it.
 
+function read_file($filename = 'data/list.txt') {
+    // echo $filename;
+
+    $handle = fopen($filename, 'r');
+    $filesize = filesize($filename);
+    $todo_string = trim(fread($handle, $filesize));
+    $todolist = explode ("\n", $todo_string);
+
+    fclose($handle);
+    // var_dump($todolist);
+    return $todolist;
+    
+    // $results = '';
+    // foreach ($filename as $key => $value) {
+    //     $results .= "[" . ($key + 1) . "]" . $value . PHP_EOL;
+    // }
+    // return $results;
+}
+
+function sort_menu ($items) { 
     echo '(A)-Z, (Z)-A, (O)rder entered (R)everse order entered:';
         $input = get_input(true);
     
@@ -30,10 +51,8 @@ function sort_menu ($items) {
         ksort($items);
     } elseif ($input == 'R') {
         krsort($items);
-
     }
     return $items;
-
 }
 
 // When a new item is added to a TODO list, 
@@ -87,7 +106,7 @@ do {
 
     echo list_items($items);   
 
-    echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
+    echo '(N)ew item, (R)emove item, (O)pen file, (S)ort, (Q)uit : ';
 
     $input = get_input(TRUE); 
 
@@ -125,6 +144,10 @@ do {
         array_shift($items);
     } elseif ($input == 'L') {
         array_pop($items);
+    } elseif ($input == 'O') {
+        echo 'Enter file path: ';
+        $file_path = get_input();
+        $items = read_file($file_path);
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
